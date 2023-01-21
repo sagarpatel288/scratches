@@ -43,3 +43,30 @@ class TypeExample(private val mutableListOfRectangle: MutableList<Rectangle>) {
 TypeExample(mutableListOf()).addListOfRectangle(arrayOf(Square()))
 TypeExample(mutableListOf()).addListOfRectangle(arrayOf(Rectangle()))
 
+//region Show LSP Violation where we get different behaviour of the same function when we replace a parent with a child.
+open class Parent {
+    open fun printSomething() {
+        println("Something")
+    }
+}
+
+class Child: Parent() {
+    override fun printSomething() {
+        //Empty
+    }
+}
+
+class Usage {
+    fun printDefault(parent: Parent) {
+        parent.printSomething()
+    }
+}
+
+Usage().printDefault(Parent())
+
+//region Problem with empty overridden function (LSP Violation)
+//When we replaced a parent with a child, it changed the behavior of the "Usage" class and its function "printDefault"!
+//It is a LSP Violation!
+Usage().printDefault(Child()) //Does nothing!
+//endregion
+//endregion
