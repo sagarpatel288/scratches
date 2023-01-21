@@ -57,9 +57,11 @@ class Child: Parent() {
 }
 
 class Usage {
+    //region LSP Violation where we get different behaviour of the same function when we replace a parent with a child.
     fun printDefault(parent: Parent) {
         parent.printSomething()
     }
+    //endregion
 }
 
 Usage().printDefault(Parent())
