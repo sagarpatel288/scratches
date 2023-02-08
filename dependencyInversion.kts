@@ -23,7 +23,7 @@ interface Print {
 
 class DependencyInversion(private val print: Print) {
     fun printImplementation() {
-        //Source code does not care implementation of the interface PrintB
+        //The source code (The class) "DependencyInversion" does not care implementation of the interface "Print"
         print.print()
     }
 }
