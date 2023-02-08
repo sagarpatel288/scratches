@@ -1,6 +1,7 @@
 //region Compile Time Dependency Example
 class A {
     fun printB() {
+        //Source code A depends on module/class B
         val b = B()
         b.printB()
     }
@@ -16,20 +17,32 @@ A().printB()
 //endregion
 
 //region Dependency Inversion
-interface PrintB {
-    fun printB()
+interface Print {
+    fun print()
 }
 
-class DependencyInversion(private val printB: PrintB) {
-    fun printB() {
-        printB.printB()
+class DependencyInversion(private val print: Print) {
+    fun printImplementation() {
+        //Source code does not care implementation of the interface PrintB
+        print.print()
     }
 }
 
-class PrintBImpl: PrintB {
-    override fun printB() {
-        println("Dependency Inversion: PrintBImpl implements PrintB")
+//PrintBImpl implements the interface PrintB
+class PrintBImpl: Print {
+    override fun print() {
+        println("Dependency Inversion: PrintBImpl implements Print: B")
     }
 }
-DependencyInversion(PrintBImpl()).printB()
+
+//PrintAImpl implements the interface PrintB
+class PrintAImpl: Print {
+    override fun print() {
+        println("Dependency Inversion: PrintAImpl implements Print: A")
+    }
+}
+
+//We decide which implementation to use at the calling (usage) side
+DependencyInversion(PrintBImpl()).printImplementation()
+DependencyInversion(PrintAImpl()).printImplementation()
 //endregion
